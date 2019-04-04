@@ -4,6 +4,7 @@ import Router from 'vue-router'
 //页面
 import Home from '../components/pages/Home'
 import milk from '../components/pages/Home/Milk'
+import order_management from '../components/pages/Order/OrderManagement'
 
 Vue.use(Router);
 
@@ -14,8 +15,12 @@ export default new Router({
     component: Home,
     children: [{
       path: '/milk',
-      name: '预览',
+      name: '商品',
       component: milk
+    }, {
+      path: '/order_management',
+      name: '订单管理',
+      component: order_management
     }]
   }]
 })

@@ -3,7 +3,7 @@
     <el-header>
       <el-row>
         <el-col :span="1">
-          <i class="el-icon-menu" style="color: #921AFF;"></i>
+          <i class="el-icon-menu" style="color: #921AFF; font-size: 24px;"></i>
         </el-col>
         <el-col :span="3">
           <span>微笑 - 奶茶店</span>
@@ -12,12 +12,12 @@
     </el-header>
     <el-container>
       <el-aside width="200px" style="border-radius: 3px">
-        <el-menu default-active="milk" class="el-menu-vertical-demo" router @select="">
+        <el-menu :default-active="active_index" class="el-menu-vertical-demo" router @select="selectMenu">
           <el-menu-item index="milk">
             <i class="el-icon-loading"></i>
             <span slot="title">商品</span>
           </el-menu-item>
-          <el-menu-item index="2">
+          <el-menu-item index="order_management">
             <i class="el-icon-tickets"></i>
             <span slot="title">订单管理</span>
           </el-menu-item>
@@ -54,9 +54,20 @@
 <script>
   export default {
     name: "Home",
-    data: () => ({}),
+    data: () => {
+      return {
+        //激活的菜单
+        active_index: '',
+      }
+    },
 
-    methods: {},
+    methods: {
+      selectMenu(index) {
+        this.active_index = index;
+      }
+    },
+    created: () => {
+    }
   }
 </script>
 <style>
