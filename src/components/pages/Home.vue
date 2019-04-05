@@ -3,40 +3,45 @@
     <el-header>
       <el-row>
         <el-col :span="1">
-          <i class="el-icon-menu" style="color: #921AFF; font-size: 24px;"></i>
+          <i class="el-icon-menu left-icon-class"></i>
         </el-col>
         <el-col :span="3">
           <span>微笑 - 奶茶店</span>
+        </el-col>
+        <el-col :span="20" class="right-header-class">
+          <a href="https://github.com/huaisun/sun-vue-element" target="_blank"
+             class="el-icon-star-off right-icon-class"></a>
         </el-col>
       </el-row>
     </el-header>
     <el-container>
       <el-aside width="200px" style="border-radius: 3px">
-        <el-menu :default-active="active_index" class="el-menu-vertical-demo" router @select="selectMenu">
-          <el-menu-item index="milk">
+        <el-menu :default-active="$route.path" class="el-menu-vertical-demo" router :unique-opened="true"
+                 menu-trigger="hover" @select="handleSelect">
+          <el-menu-item index="/milk">
             <i class="el-icon-loading"></i>
             <span slot="title">商品</span>
           </el-menu-item>
-          <el-menu-item index="order_management">
+          <el-menu-item index="/order_manage">
             <i class="el-icon-tickets"></i>
             <span slot="title">订单管理</span>
           </el-menu-item>
-          <el-menu-item index="3">
+          <el-menu-item index="/user_manage">
             <i class="el-icon-more-outline"></i>
             <span slot="title">会员管理</span>
           </el-menu-item>
-          <el-menu-item index="4">
+          <el-menu-item index="/milk_manage">
             <i class="el-icon-news"></i>
             <span slot="title">奶茶管理</span>
           </el-menu-item>
-          <el-submenu index="5">
+          <el-submenu index="setting">
             <template slot="title">
               <i class="el-icon-setting"></i>
               <span>系统</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="1-1">登录管理</el-menu-item>
-              <el-menu-item index="1-2">店铺详情</el-menu-item>
+              <el-menu-item index="/login_manage">登录管理</el-menu-item>
+              <el-menu-item index="/shop_detail">店铺详情</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
         </el-menu>
@@ -55,19 +60,19 @@
   export default {
     name: "Home",
     data: () => {
-      return {
-        //激活的菜单
-        active_index: '',
-      }
+      return {}
     },
-
+    created() {
+      console.log(this.$route)
+    },
     methods: {
-      selectMenu(index) {
-        this.active_index = index;
+      handleSelect() {
+        console.log(this.$route);
+      },
+      hover_icon() {
+        alert(11)
       }
     },
-    created: () => {
-    }
   }
 </script>
 <style>
@@ -99,5 +104,26 @@
 
   .el-container:nth-child(7) .el-aside {
     line-height: 320px;
+  }
+
+  .right-header-class {
+    text-align: right;
+    padding-right: 10px;
+  }
+
+  .left-icon-class {
+    color: #921AFF;
+    font-size: 24px;
+  }
+
+  .right-icon-class {
+    color: #921AFF;
+    font-size: 20px;
+  }
+
+  .right-icon-class:hover {
+    background: #921AFF;
+    border-radius: 50%;
+    color: white;
   }
 </style>
