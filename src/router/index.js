@@ -10,6 +10,7 @@ import milk_manage from '../components/pages/Milk/MilkManage'
 import setting from '../components/pages/System/Setting'
 import login_manage from '../components/pages/System/LoginManage'
 import shop_detail from '../components/pages/System/ShopDetail'
+import login from '../components/pages/Login'
 
 //组件
 import Table from '../components/common/Table'
@@ -20,6 +21,10 @@ Vue.component('sun-table', Table);
 export default new Router({
   routes: [{
     path: '/',
+    name: '登陆',
+    component: login
+  }, {
+    path: '/home',
     name: '首页',
     component: Home,
     children: [{
