@@ -11,7 +11,7 @@
             <el-input type="password" v-model="form.pass" auto-complete="off"></el-input>
           </el-form-item>
           <el-form-item class="button-form-class">
-            <el-button type="primary" @click="" class="submit-class">登陆</el-button>
+            <el-button type="primary" @click="onsubmit" class="submit-class">登陆</el-button>
           </el-form-item>
         </el-form>
       </el-card>
@@ -28,6 +28,11 @@
           username: '',
           password: ''
         },
+      }
+    },
+    methods: {
+      onsubmit() {
+        this.$router.push('/milk')
       }
     }
   }
