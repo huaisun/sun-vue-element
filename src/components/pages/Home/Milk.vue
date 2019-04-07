@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    <el-card class="box-card">
+    <el-card>
       <el-row>
         <el-col :span="8">
           <img src="/static/img/1.jpeg" class="image milk-photo-size" alt="short-black">
