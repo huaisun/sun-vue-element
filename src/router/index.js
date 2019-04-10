@@ -2,21 +2,23 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 //页面
-import Home from '../components/pages/Home'
-import milk from '../components/pages/Home/Milk'
-import order_manage from '../components/pages/Order/OrderManage'
-import user_manage from '../components/pages/User/UserManage'
-import milk_manage from '../components/pages/Milk/MilkManage'
-import setting from '../components/pages/System/Setting'
-import login_manage from '../components/pages/System/LoginManage'
-import shop_detail from '../components/pages/System/ShopDetail'
-import login from '../components/pages/Login'
+import Home from '../components/pages/Home';
+import milk from '../components/pages/Home/Milk';
+import order_manage from '../components/pages/Order/OrderManage';
+import user_manage from '../components/pages/User/UserManage';
+import milk_manage from '../components/pages/Milk/MilkManage';
+import setting from '../components/pages/System/Setting';
+import login_manage from '../components/pages/System/LoginManage';
+import shop_detail from '../components/pages/System/ShopDetail';
+import login from '../components/pages/Login';
 
 //组件
-import Table from '../components/common/Table'
+import Table from '../components/common/Table';
+import Pagination from "../components/common/Pagination";
 
 Vue.use(Router);
 Vue.component('sun-table', Table);
+Vue.component('sun-pagination', Pagination);
 
 export default new Router({
   routes: [{

@@ -39,7 +39,7 @@
             type: 'warning'
           });
         } else {
-          self.$http.post('http://localhost:8023/sun/employ/login', self.form).then((response) => {
+          self.$http.post('/sun/employ/login', self.form).then((response) => {
             if (response.body.code === 1) {
               this.$router.push('milk');
             } else {
