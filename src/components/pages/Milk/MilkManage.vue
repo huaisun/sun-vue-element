@@ -5,7 +5,7 @@
         <el-row>
           <el-col :xs="22" :sm="18" :md="10" :lg="8" :xl="6">
             <el-form-item>
-              <el-input prefix-icon="el-icon-search" v-model="searchForm.username"></el-input>
+              <el-input prefix-icon="el-icon-search" v-model="searchForm.milkName" @change="loadTableData"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -13,6 +13,8 @@
     </div>
     <div class="table-class">
       <sun-table :data="tableData" :label="labelData" :column-index="columnIndex"></sun-table>
+      <sun-pagination :total="total" :page-size="pageSize" :current-change="currentPage"
+                      @sizeChange="handleSizeChange" @currenChange="handleCurrentChange"></sun-pagination>
     </div>
   </div>
 </template>
@@ -23,36 +25,23 @@
     data: () => {
       return {
         searchForm: {
-          username: ''
+          milkName: ''
         },
         //表格数据
-        tableData: [{
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }],
+        tableData: [],
         //表头数据
         labelData: [{
-          prop: 'date',
-          name: '日期',
+          prop: 'milkName',
+          name: '奶茶名',
         }, {
-          prop: 'name',
-          name: '姓名',
+          prop: 'milkPrice',
+          name: '奶茶价格',
         }, {
-          prop: 'address',
-          name: '地址',
+          prop: 'milkAddress',
+          name: '奶茶照片',
+        }, {
+          prop: 'isShelf',
+          name: '上架'
         }],
 
         //序号显示
@@ -60,7 +49,37 @@
           show: true,
           width: 50,
           name: '#'
-        }
+        },
+
+        pageSize: 5,
+        currentPage: 0,
+        total: 0,
+      }
+    },
+    created() {
+      this.loadTableData();
+    },
+    methods: {
+      loadTableData() {
+        let self = this;
+        let entity = {
+          milkName: self.searchForm.milkName,
+          pageSize: self.pageSize,
+          currentPage: self.currentPage
+        };
+        self.$http.get('/sun/milk/searchMilkMenu', {params: entity}).then(response => {
+          self.tableData = response.body.page.list;
+          self.total = response.body.page.total;
+        }, response => {
+          this.$message.error('System Error,Call Administrator');
+        })
+      },
+
+      handleSizeChange() {
+
+      },
+      handleCurrentChange() {
+
       }
     }
   }

@@ -63,11 +63,9 @@
       return {}
     },
     created() {
-      console.log(this.$route)
     },
     methods: {
       handleSelect() {
-        console.log(this.$route);
       },
       hover_icon() {
         alert(11)

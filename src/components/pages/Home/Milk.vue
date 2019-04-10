@@ -63,8 +63,20 @@
       return {
         rate: null,
         radio3: '常规',
+        milkData: [],
       }
     },
+    created() {
+      this.loadMilkData();
+    },
+    methods: {
+      loadMilkData() {
+        let self = this;
+        self.$http.get('/sun/milk/searchMilkMenu', {params: {isSelf: 0}}).then(response => {
+          self.milkData = response.body.data;
+        })
+      }
+    }
   }
 </script>
 
