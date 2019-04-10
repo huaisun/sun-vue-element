@@ -53,7 +53,8 @@
           name: '总消费',
         }, {
           prop: 'createDate',
-          name: '创建日期'
+          name: '创建日期',
+          formatter: this.formatDate,
         }],
 
         //序号显示
@@ -74,6 +75,10 @@
     },
 
     methods: {
+      //日期转换
+      formatDate(row, column, executeTime) {
+        return new Date(+new Date(new Date(executeTime).toJSON()) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '');
+      },
       //处理分页
       handleSizeChange() {
 
@@ -90,10 +95,13 @@
           phone: self.searchForm.name,
           email: self.searchForm.name,
           id: self.searchForm.id,
+          pageSize: self.pageSize,
+          currentPage: self.currentPage
         };
         self.$http.get('/sun/user/searchUser', {params: entity}).then(response => {
           console.log(response);
-          self.tableData = response.body.data;
+          self.tableData = response.body.page.list;
+          self.total = response.body.page.total
         }, response => {
           this.$message.error('System Error,Call Administrator');
         })
