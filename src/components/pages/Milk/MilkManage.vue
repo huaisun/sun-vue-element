@@ -5,16 +5,19 @@
         <el-row>
           <el-col :xs="22" :sm="18" :md="10" :lg="8" :xl="6">
             <el-form-item>
-              <el-input prefix-icon="el-icon-search" v-model="searchForm.milkName" @change="loadTableData"></el-input>
+              <el-input prefix-icon="el-icon-search" v-model="searchForm.milkName" v-on:input="loadTableData"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
       </el-form>
     </div>
     <div class="table-class">
+      <div class="page-button-class">
+        <el-button size="medium" plain>添加奶茶</el-button>
+      </div>
       <sun-table :data="tableData" :label="labelData" :column-index="columnIndex"></sun-table>
       <sun-pagination :total="total" :page-size="pageSize" :current-change="currentPage"
-                      @sizeChange="handleSizeChange" @currenChange="handleCurrentChange"></sun-pagination>
+                      @size-change="handleSizeChange" @current-change="handleCurrentChange"></sun-pagination>
     </div>
   </div>
 </template>
@@ -52,7 +55,7 @@
         },
 
         pageSize: 5,
-        currentPage: 0,
+        currentPage: 1,
         total: 0,
       }
     },
@@ -75,16 +78,18 @@
         })
       },
 
-      handleSizeChange() {
-
+      handleSizeChange(pageSize) {
+        this.pageSize = pageSize;
+        this.loadTableData();
       },
-      handleCurrentChange() {
-
+      handleCurrentChange(currentPage) {
+        this.currentPage = currentPage;
+        this.loadTableData();
       }
     }
   }
 </script>
 
-<style scoped>
+<style>
 
 </style>

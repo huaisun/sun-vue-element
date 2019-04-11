@@ -1,7 +1,7 @@
 <template>
   <div class="block">
     <el-pagination @size-change="sizeChange" @current-change="currentChange"
-                   :current-page="currentPage" :page-size="pageSize" layout="total, prev, pager, next"
+                   :current-page="currentPage" :page-size="pageSize" :page-sizes="[5,10,20]" layout="total, sizes, prev, pager, next"
                    :total="total">
     </el-pagination>
   </div>
@@ -15,8 +15,11 @@
       sizeChange() {
 
       },
-      currentChange() {
-
+      currentChange(val) {
+        this.$emit('current-change', val);
+      },
+      sizeChange(val) {
+        this.$emit('size-change', val);
       }
     }
   }

@@ -5,23 +5,32 @@
         <el-row>
           <el-col :xs="20" :sm="18" :md="10" :lg="8" :xl="6">
             <el-form-item>
-              <el-input prefix-icon="el-icon-search" v-model="searchForm.name" @change="loadTableDate"></el-input>
+              <el-input prefix-icon="el-icon-search" v-model="searchForm.name" v-on:input="loadTableDate"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
       </el-form>
     </div>
     <div class="table-class">
-      <sun-table :data="tableData" :label="labelData" :column-index="columnIndex"></sun-table>
+      <div class="page-button-class">
+        <el-button size="medium" plain @click="addUser">添加用户</el-button>
+      </div>
+      <sun-table :data="tableData" :label="labelData" :column-index="columnIndex"
+                 :column-operation="columnOperation" @handleEdit="handleEdit" @handleDelete="handleDelete"></sun-table>
       <sun-pagination :total="total" :page-size="pageSize" :current-change="currentPage"
                       @sizeChange="handleSizeChange" @currenChange="handleCurrentChange"></sun-pagination>
     </div>
+    <user-dialog ref="UserDialog" :dialog-title="dialogTitle" :dialog-visible="dialogVisible"
+                 @handleClose="handleClose"></user-dialog>
   </div>
 </template>
 
 <script>
+  import UserDialog from "./UserDialog";
+
   export default {
     name: "UserManage",
+    components: {UserDialog},
     data: function () {
       return {
         searchForm: {
@@ -64,9 +73,20 @@
           name: '#'
         },
 
+        columnOperation: {
+          show: true,
+          width: 50,
+          name: 'OPERATE'
+        },
+
         pageSize: 10,
         currentPage: 0,
         total: 0,
+
+        //弹出框的数据
+        dialogTitle: '',
+        dialogVisible: false,
+
       }
     },
 
@@ -80,11 +100,13 @@
         return new Date(+new Date(new Date(executeTime).toJSON()) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '');
       },
       //处理分页
-      handleSizeChange() {
-
+      handleSizeChange(pageSize) {
+        this.pageSize = pageSize;
+        this.loadTableData();
       },
-      handleCurrentChange() {
-
+      handleCurrentChange(currentPage) {
+        this.currentPage = currentPage;
+        this.loadTableData();
       },
 
       //加载表格
@@ -99,12 +121,48 @@
           currentPage: self.currentPage
         };
         self.$http.get('/sun/user/searchUser', {params: entity}).then(response => {
-          console.log(response);
           self.tableData = response.body.page.list;
           self.total = response.body.page.total
         }, response => {
           this.$message.error('System Error,Call Administrator');
         })
+      },
+
+      //处理管理弹出框
+      handleClose() {
+        this.dialogVisible = false;
+      },
+
+      //打开弹出框
+      addUser() {
+        this.dialogTitle = '添加用户';
+        this.dialogVisible = true;
+      },
+
+      //编辑数据
+      handleEdit(row) {
+        this.$refs.UserDialog.editForm(row);
+        this.dialogTitle = '编辑用户';
+        this.dialogVisible = true;
+      },
+
+      //删除数据
+      handleDelete(row) {
+        this.$confirm('是否删除该条数据?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
       }
     }
   }
