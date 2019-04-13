@@ -4,7 +4,7 @@
                      :label="columnIndex.name" :width="columnIndex.width"></el-table-column>
     <el-table-column v-for="(item, index) in label" :prop="item.prop" :key="index" :label="item.name"
                      :width="item.width" :formatter="item.formatter"></el-table-column>
-    <el-table-column v-if="columnOperation.show" label="操作">
+    <el-table-column v-if="columnOperation.show" :label="columnOperation.name">
       <template slot-scope="scope">
         <el-button
           size="mini"

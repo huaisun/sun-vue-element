@@ -45,11 +45,17 @@
       //保存操作
       submitDialog() {
         console.log(this.form);
-        /*this.$http.post('/sun/user/saveOrUpdateUser', this.form).then(response => {
+        let postCfg = {
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+          transformRequest: function (data) {
+            return $.param(data);
+          }
+        };
+        this.$http.post('/sun/user/saveOrUpdateUser', this.form, postCfg).then(response => {
           console.log(response);
         }, response => {
 
-        })*/
+        })
       },
 
       editForm(data) {

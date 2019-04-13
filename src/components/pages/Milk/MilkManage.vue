@@ -15,7 +15,8 @@
       <div class="page-button-class">
         <el-button size="medium" plain>添加奶茶</el-button>
       </div>
-      <sun-table :data="tableData" :label="labelData" :column-index="columnIndex"></sun-table>
+      <sun-table :data="tableData" :label="labelData" :column-index="columnIndex"
+                 :column-operation="columnOperation" @handleEdit="handleEdit" @handleDelete="handleDelete"></sun-table>
       <sun-pagination :total="total" :page-size="pageSize" :current-change="currentPage"
                       @size-change="handleSizeChange" @current-change="handleCurrentChange"></sun-pagination>
     </div>
@@ -53,6 +54,11 @@
           width: 50,
           name: '#'
         },
+        columnOperation: {
+          show: true,
+          width: 50,
+          name: 'OPERATE'
+        },
 
         pageSize: 5,
         currentPage: 1,
@@ -85,6 +91,32 @@
       handleCurrentChange(currentPage) {
         this.currentPage = currentPage;
         this.loadTableData();
+      },
+
+      //编辑数据
+      handleEdit(row) {
+        this.$refs.UserDialog.editForm(row);
+        this.dialogTitle = '编辑用户';
+        this.dialogVisible = true;
+      },
+
+      //删除数据
+      handleDelete(row) {
+        this.$confirm('是否删除该条数据?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
       }
     }
   }
