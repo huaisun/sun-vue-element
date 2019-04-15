@@ -44,17 +44,14 @@
 
       //保存操作
       submitDialog() {
-        console.log(this.form);
-        let postCfg = {
-          headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-          transformRequest: function (data) {
-            return $.param(data);
-          }
-        };
-        this.$http.post('/sun/user/saveOrUpdateUser', this.form, postCfg).then(response => {
-          console.log(response);
+        this.$http.post('/sun/user/saveOrUpdateUser', this.form,  {emulateJSON:true}).then(response => {
+          this.$message({
+            message: response.body.msg,
+            type: 'success'
+          });
+          this.closeDialog();
         }, response => {
-
+          this.$message.error('System Error,Call Administrator');
         })
       },
 

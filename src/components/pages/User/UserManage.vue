@@ -75,7 +75,7 @@
 
         columnOperation: {
           show: true,
-          width: 50,
+          width: 200,
           name: 'OPERATE'
         },
 
@@ -130,6 +130,7 @@
 
       //处理管理弹出框
       handleClose() {
+        this.loadTableDate();
         this.dialogVisible = false;
       },
 
@@ -148,17 +149,28 @@
 
       //删除数据
       handleDelete(row) {
-        this.$confirm('是否删除该条数据?', '提示', {
+        let self = this;
+        self.$confirm('是否删除该条数据?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
+          self.$http.delete('/sun/user/deleteUser', {params: row}).then(response => {
+            if (response.body.code === 1) {
+              self.$message({
+                type: 'success',
+                message: response.body.msg
+              });
+            } else {
+              self.$message.error(response.body.msg);
+            }
+            self.loadTableDate();
+          }, response => {
+            self.$message.error('删除失败!');
           });
+
         }).catch(() => {
-          this.$message({
+          self.$message({
             type: 'info',
             message: '已取消删除'
           });
