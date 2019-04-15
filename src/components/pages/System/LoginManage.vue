@@ -12,19 +12,30 @@
       </el-form>
     </div>
     <div class="table-class">
-      <sun-table :data="tableData" :label="labelData" :column-index="columnIndex"></sun-table>
+      <div class="page-button-class">
+        <el-button size="medium" plain @click="addEmploy">添加账号</el-button>
+      </div>
+      <sun-table :data="tableData" :label="labelData" :column-index="columnIndex" :column-operation="columnOperation"
+                 @handleEdit="handleEdit" @handleDelete="handleDelete"></sun-table>
       <sun-pagination :total="total" :page-size="pageSize" :current-change="currentPage"
                       @sizeChange="handleSizeChange" @currenChange="handleCurrentChange"></sun-pagination>
 
     </div>
+    <sign-up ref="SignUp" :dialog-visible="dialogVisible" :dialog-title="dialogTitle"
+             @handleClose="handleClose"></sign-up>
   </div>
 </template>
 
 <script>
+  import SignUp from "./SignUp";
+
   export default {
     name: "LoginManage",
+    components: {SignUp},
     data: function () {
       return {
+        dialogVisible: false,
+        dialogTitle: '',
         searchForm: {
           name: ''
         },
@@ -60,6 +71,12 @@
           name: '#'
         },
 
+        columnOperation: {
+          show: true,
+          width: 200,
+          name: 'OPERATION',
+        },
+
         pageSize: 10,
         currentPage: 0,
         total: 0,
@@ -89,7 +106,6 @@
       },
 
       formatValid(row, column, valid) {
-        console.log(valid);
         return valid === 0 ? '否' : '是'
       },
       handleSizeChange(pageSize) {
@@ -99,11 +115,55 @@
       handleCurrentChange(currentPage) {
         this.currentPage = currentPage;
         this.loadTableData();
+      },
+
+      handleEdit(row) {
+        this.$refs.SignUp.editForm(row);
+        this.dialogVisible = true;
+        this.dialogTitle = '编辑管理员';
+      },
+      handleDelete(row) {
+        let self = this;
+        self.$confirm('是否删除该条数据?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          self.$http.delete('/sun/employ/deleteEmploy', {params: row}).then(response => {
+            if (response.body.code === 1) {
+              self.$message({
+                type: 'success',
+                message: response.body.msg
+              });
+            } else {
+              self.$message.error(response.body.msg);
+            }
+            self.loadTableData();
+          }, response => {
+            self.$message.error('删除失败!');
+          });
+
+        }).catch(() => {
+          self.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+      },
+
+      //添加管理员
+      addEmploy() {
+        this.dialogTitle = '新增管理员';
+        this.dialogVisible = true;
+      },
+
+      handleClose() {
+        this.loadTableData();
+        this.dialogVisible = false;
       }
     }
   }
 </script>
 
-<style scoped>
-
+<style>
 </style>

@@ -19,7 +19,6 @@
       <el-button type="primary" @click="submitDialog">确 定</el-button>
     </span>
   </el-dialog>
-
 </template>
 
 <script>

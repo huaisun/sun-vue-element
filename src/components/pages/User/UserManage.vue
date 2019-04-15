@@ -91,7 +91,7 @@
     },
 
     created() {
-      this.loadTableDate();
+      this.loadTableData();
     },
 
     methods: {
@@ -110,7 +110,7 @@
       },
 
       //加载表格
-      loadTableDate() {
+      loadTableData() {
         let self = this;
         let entity = {
           name: self.searchForm.name,
@@ -130,7 +130,7 @@
 
       //处理管理弹出框
       handleClose() {
-        this.loadTableDate();
+        this.loadTableData();
         this.dialogVisible = false;
       },
 
@@ -164,7 +164,7 @@
             } else {
               self.$message.error(response.body.msg);
             }
-            self.loadTableDate();
+            self.loadTableData();
           }, response => {
             self.$message.error('删除失败!');
           });
