@@ -5,7 +5,8 @@
         <el-row>
           <el-col :xs="22" :sm="18" :md="10" :lg="8" :xl="6">
             <el-form-item>
-              <el-input prefix-icon="el-icon-search" v-model="searchForm.milkName" v-on:input="loadTableData"></el-input>
+              <el-input prefix-icon="el-icon-search" v-model="searchForm.milkName"
+                        v-on:input="loadTableData"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -13,21 +14,28 @@
     </div>
     <div class="table-class">
       <div class="page-button-class">
-        <el-button size="medium" plain>添加奶茶</el-button>
+        <el-button size="medium" plain @click="addMilk">添加奶茶</el-button>
       </div>
       <sun-table :data="tableData" :label="labelData" :column-index="columnIndex"
                  :column-operation="columnOperation" @handleEdit="handleEdit" @handleDelete="handleDelete"></sun-table>
       <sun-pagination :total="total" :page-size="pageSize" :current-change="currentPage"
                       @size-change="handleSizeChange" @current-change="handleCurrentChange"></sun-pagination>
     </div>
+    <milk-dialog ref="MilkDialog" :dialog-title="dialogTitle" :dialog-visible="dialogVisible"
+                 @handleClose="handleClose"></milk-dialog>
   </div>
 </template>
 
 <script>
+  import MilkDialog from "./MilkDialog";
+
   export default {
     name: "MilkManage",
+    components: {MilkDialog},
     data: () => {
       return {
+        dialogVisible: false,
+        dialogTitle: '',
         searchForm: {
           milkName: ''
         },
@@ -56,7 +64,7 @@
         },
         columnOperation: {
           show: true,
-          width: 50,
+          width: 200,
           name: 'OPERATE'
         },
 
@@ -95,28 +103,49 @@
 
       //编辑数据
       handleEdit(row) {
-        this.$refs.UserDialog.editForm(row);
-        this.dialogTitle = '编辑用户';
+        this.$refs.MilkDialog.editForm(row);
+        this.dialogTitle = '编辑奶茶';
         this.dialogVisible = true;
       },
 
       //删除数据
       handleDelete(row) {
-        this.$confirm('是否删除该条数据?', '提示', {
+        let self = this;
+        self.$confirm('是否删除该条数据?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
+          self.$http.delete('/sun/milk/deleteMilk', {params: row}).then(response => {
+            if (response.body.code === 1) {
+              self.$message({
+                type: 'success',
+                message: response.body.msg
+              });
+            } else {
+              self.$message.error(response.body.msg);
+            }
+            self.loadTableData();
+          }, response => {
+            self.$message.error('删除失败!');
           });
+
         }).catch(() => {
-          this.$message({
+          self.$message({
             type: 'info',
             message: '已取消删除'
           });
         });
+      },
+
+      addMilk() {
+        this.dialogTitle = '新增奶茶';
+        this.dialogVisible = true;
+      },
+
+      handleClose() {
+        this.loadTableData();
+        this.dialogVisible = false;
       }
     }
   }

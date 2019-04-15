@@ -5,7 +5,7 @@
         <el-row>
           <el-col :xs="20" :sm="18" :md="10" :lg="8" :xl="6">
             <el-form-item>
-              <el-input prefix-icon="el-icon-search" v-model="searchForm.name" v-on:input="loadTableDate"></el-input>
+              <el-input prefix-icon="el-icon-search" v-model="searchForm.name" v-on:input="loadTableData"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
