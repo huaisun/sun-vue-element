@@ -13,7 +13,8 @@
     </div>
 
     <div class="table-class">
-      <sun-table :data="tableData" :label="labelData" :column-index="columnIndex"></sun-table>
+      <sun-table :data="tableData" :label="labelData" :column-index="columnIndex"
+                 :column-operation="columnOperation"></sun-table>
     </div>
   </div>
 </template>
@@ -27,39 +28,37 @@
         searchForm: {
           username: '',
         },
-        tableData: [{
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }],
+        tableData: [],
 
         labelData: [{
-          prop: 'date',
-          name: '日期',
+          prop: 'id',
+          name: '订单编号',
         }, {
-          prop: 'name',
-          name: '姓名',
+          prop: 'userName',
+          name: '用户名'
         }, {
-          prop: 'address',
-          name: '地址',
+          prop: 'createDate',
+          name: '创建日期'
+        }, {
+          prop: 'mode',
+          name: '支付方式',
+        }, {
+          prop: 'valid',
+          name: '订单是否有效',
+        }, {
+          prop: 'payment',
+          name: '总消费'
         }],
 
         columnIndex: {
           show: true,
           width: 50,
           name: '#'
+        },
+        columnOperation: {
+          show: false,
+          width: 200,
+          name: 'OPERATION',
         }
       }
     }

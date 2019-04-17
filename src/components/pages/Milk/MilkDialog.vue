@@ -1,45 +1,85 @@
 <template>
-  <el-dialog :visible.sync="dialogVisible" width="30%" :before-close="closeDialog">
+  <div>
+    <el-dialog :visible.sync="dialogVisible" width="30%" :before-close="closeDialog">
     <span slot="title" class="dialog-title">
       {{dialogTitle}}
     </span>
-    <el-form ref="form" :model="form" label-position="left" label-width="80px" class="milk-form">
-      <el-form-item label="奶茶名">
-        <el-input v-model="form.milkName" auto-complete="off"></el-input>
-      </el-form-item>
-      <el-form-item label="奶茶价格">
-        <el-input v-model="form.milkPrice" auto-complete="off"></el-input>
-      </el-form-item>
-      <el-form-item label="奶茶照片">
-        <el-input v-model="form.milkAddress" auto-complete="off"></el-input>
-      </el-form-item>
-      <el-form-item label="上架">
-        <el-switch v-model="form.isShelf"></el-switch>
-      </el-form-item>
-    </el-form>
-    <span slot="footer" class="dialog-footer">
+      <el-form ref="form" :model="form" label-position="left" label-width="80px" class="milk-form">
+        <el-form-item label="奶茶名">
+          <el-input v-model="form.milkName" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="奶茶详情">
+          <el-input v-model="form.milkDetail" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="奶茶价格">
+              <el-input v-model="form.milkPrice" auto-complete="off">
+                <i slot="prefix" class="">$</i>
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12" class="shelf-class">
+            <el-form-item label="上架">
+              <el-switch v-model="form.shelf"></el-switch>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-form-item label="奶茶照片">
+          <img :src="form.milkPhoto" alt="当前图片" class="milk-photo-class" @click="selectPhoto">
+          <my-upload field="img" :width="300" :height="300" :url="url" :params="params" :headers="headers"
+                     v-model="photoShow" img-format="png" withCredentials :noCircle="true"
+                     @crop-success="cropSuccess"></my-upload>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
       <el-button @click="closeDialog">取 消</el-button>
       <el-button type="primary" @click="submitDialog">确 定</el-button>
     </span>
-  </el-dialog>
+    </el-dialog>
+  </div>
 </template>
 
 <script>
+  import myUpload from 'vue-image-crop-upload';
+
   export default {
     name: "milk-dialog",
+    components: {'my-upload': myUpload},
     props: ['dialogVisible', 'dialogTitle'],
     data: function () {
       return {
+        photoShow: false,
+        params: {
+          token: '123456798',
+          name: 'avatar'
+        },
+        headers: {
+          smail: '*_~'
+        },
+        default_photo_address: '',
+        current_photo: 'default.jpg',
+        url: '',
+        cropVisible: false,
+        cropTitle: '奶茶照片',
         form: {
           id: '',
           milkName: '',
+          milkDetail: '',
           milkPrice: '',
-          milkAddress: '',
-          isShelf: false,
+          milkPhoto: '/static/img/milk/default.jpg',
+          shelf: false,
         }
       }
     },
     methods: {
+      cropSuccess(imgDataUrl, field) {
+        console.log(imgDataUrl);
+        this.form.milkPhoto = imgDataUrl;
+      },
+      selectPhoto() {
+        this.photoShow = !this.photoShow;
+      },
       closeDialog(done) {
         this.clearForm();
         this.$emit('handleClose', done);
@@ -62,9 +102,10 @@
         this.form = {
           id: '',
           milkName: '',
+          milkDetail: '',
           milkPrice: '',
-          milkAddress: '',
-          isShelf: false,
+          milkPhoto: '/static/img/milk/default.jpg',
+          shelf: false,
         }
       },
       editForm(row) {
@@ -73,6 +114,10 @@
         this.form.milkAddress = row.milkAddress;
         this.form.milkPrice = row.milkPrice;
         this.form.isShelf = row.isShelf === 1;
+      },
+
+      handleCloseCrop() {
+        this.cropVisible = false;
       }
     }
   }
@@ -82,5 +127,18 @@
   .milk-form {
     padding: 20px;
     text-align: left;
+  }
+
+  .shelf-class {
+    padding-left: 20px;
+  }
+
+  .selectPhoto {
+    padding-left: 20px;
+  }
+
+  .milk-photo-class {
+    width: 100px;
+    height: 100px;
   }
 </style>

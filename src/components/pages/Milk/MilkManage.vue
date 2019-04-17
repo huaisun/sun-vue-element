@@ -46,13 +46,13 @@
           prop: 'milkName',
           name: '奶茶名',
         }, {
-          prop: 'milkPrice',
-          name: '奶茶价格',
+          prop: 'milkDetail',
+          name: '奶茶详情',
         }, {
-          prop: 'milkAddress',
-          name: '奶茶照片',
+          prop: 'milkGrade',
+          name: '等级',
         }, {
-          prop: 'isShelf',
+          prop: 'shelf',
           name: '上架'
         }],
 
