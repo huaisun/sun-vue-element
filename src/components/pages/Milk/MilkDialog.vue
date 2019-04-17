@@ -27,9 +27,9 @@
         </el-row>
         <el-form-item label="奶茶照片">
           <img :src="form.milkPhoto" alt="当前图片" class="milk-photo-class" @click="selectPhoto">
-          <my-upload field="img" :width="300" :height="300" :url="url" :params="params" :headers="headers"
-                     v-model="photoShow" img-format="png" withCredentials :noCircle="true"
-                     @crop-success="cropSuccess"></my-upload>
+          <my-upload field="img" :width="300" :height="300" :url="url" v-model="photoShow" img-format="png" withCredentials :noCircle="true"
+                     @crop-success="cropSuccess" @crop-upload-success="cropUploadSuccess"
+                     @crop-upload-fail="cropUploadFail"></my-upload>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -50,16 +50,12 @@
     data: function () {
       return {
         photoShow: false,
-        params: {
-          token: '123456798',
-          name: 'avatar'
-        },
         headers: {
-          smail: '*_~'
+          'Content-Type': 'multipart/form-data'
         },
         default_photo_address: '',
         current_photo: 'default.jpg',
-        url: '',
+        url: '/sun/file/uploadImg',
         cropVisible: false,
         cropTitle: '奶茶照片',
         form: {
@@ -68,13 +64,23 @@
           milkDetail: '',
           milkPrice: '',
           milkPhoto: '/static/img/milk/default.jpg',
+          file: '',
           shelf: false,
         }
       }
     },
     methods: {
+      cropUploadFail(status, field) {
+        console.log('-------- upload fail --------');
+        console.log(status);
+        console.log('field: ' + field);
+      },
+      cropUploadSuccess(jsonData, field) {
+        console.log(jsonData);
+        console.log(field);
+      },
       cropSuccess(imgDataUrl, field) {
-        console.log(imgDataUrl);
+        this.form.file = field;
         this.form.milkPhoto = imgDataUrl;
       },
       selectPhoto() {
