@@ -26,8 +26,9 @@
           </el-col>
         </el-row>
         <el-form-item label="奶茶照片">
-          <img :src="form.milkPhoto" alt="当前图片" class="milk-photo-class" @click="selectPhoto">
-          <my-upload field="img" :width="300" :height="300" :url="url" v-model="photoShow" img-format="png" withCredentials :noCircle="true"
+          <img :src="imgDataUrl" alt="当前图片" class="milk-photo-class" @click="selectPhoto">
+          <my-upload field="img" :width="300" :height="300" :url="url" v-model="photoShow" img-format="png"
+                     withCredentials :noCircle="true"
                      @crop-success="cropSuccess" @crop-upload-success="cropUploadSuccess"
                      @crop-upload-fail="cropUploadFail"></my-upload>
         </el-form-item>
@@ -63,37 +64,33 @@
           milkName: '',
           milkDetail: '',
           milkPrice: '',
-          milkPhoto: '/static/img/milk/default.jpg',
-          file: '',
+          milkPhoto: '',
           shelf: false,
-        }
+        },
+        imgDataUrl: '/static/img/milk/default.jpg'
       }
     },
     methods: {
       cropUploadFail(status, field) {
-        console.log('-------- upload fail --------');
-        console.log(status);
-        console.log('field: ' + field);
+        //todo
       },
       cropUploadSuccess(jsonData, field) {
-        console.log(jsonData);
-        console.log(field);
+        this.form.milkPhoto = jsonData.data;
       },
       cropSuccess(imgDataUrl, field) {
-        this.form.file = field;
-        this.form.milkPhoto = imgDataUrl;
+        this.imgDataUrl = imgDataUrl;
       },
       selectPhoto() {
         this.photoShow = !this.photoShow;
       },
       closeDialog(done) {
-        this.clearForm();
         this.$emit('handleClose', done);
+        this.clearForm();
       },
       submitDialog() {
         let entity = this.form;
-        entity.isShelf = this.form.isShelf ? 1 : 0;
-        this.$http.post('/sun/milk/saveOrUpdateMilk', this.form, {emulateJSON: true}).then(response => {
+        entity.shelf = this.form.shelf ? 1 : 0;
+        this.$http.post('/sun/milk/saveOrUpdateMilk', entity, {emulateJSON: true}).then(response => {
           this.$message({
             message: response.body.msg,
             type: 'success'
@@ -110,21 +107,18 @@
           milkName: '',
           milkDetail: '',
           milkPrice: '',
-          milkPhoto: '/static/img/milk/default.jpg',
+          milkPhoto: '',
           shelf: false,
-        }
+        };
+        this.imgDataUrl = '/static/img/milk/default.jpg';
       },
       editForm(row) {
         this.form.id = row.id;
         this.form.milkName = row.milkName;
         this.form.milkAddress = row.milkAddress;
         this.form.milkPrice = row.milkPrice;
-        this.form.isShelf = row.isShelf === 1;
+        this.form.shelf = row.shelf === 1;
       },
-
-      handleCloseCrop() {
-        this.cropVisible = false;
-      }
     }
   }
 </script>

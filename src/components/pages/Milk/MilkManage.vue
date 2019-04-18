@@ -32,7 +32,7 @@
   export default {
     name: "MilkManage",
     components: {MilkDialog},
-    data: () => {
+    data: function () {
       return {
         dialogVisible: false,
         dialogTitle: '',
@@ -49,8 +49,9 @@
           prop: 'milkDetail',
           name: '奶茶详情',
         }, {
-          prop: 'milkGrade',
-          name: '等级',
+          prop: 'milkPrice',
+          name: '价格',
+          formatter: this.priceFormat,
         }, {
           prop: 'shelf',
           name: '上架'
@@ -77,6 +78,18 @@
       this.loadTableData();
     },
     methods: {
+      priceFormat(row, column, milkPrice) {
+        milkPrice = milkPrice.toString();
+        let length = milkPrice.indexOf('.');
+        if (length < 0) {
+          length = milkPrice.length;
+          milkPrice += '.';
+        }
+        while (milkPrice.length <= length + 2) {
+          milkPrice += '0';
+        }
+        return '$' + milkPrice;
+      },
       loadTableData() {
         let self = this;
         let entity = {
