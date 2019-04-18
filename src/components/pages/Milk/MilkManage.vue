@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="aside-class">
     <div class="search-class">
       <el-form ref="form" :model="searchForm">
         <el-row>
@@ -69,7 +69,7 @@
           name: 'OPERATE'
         },
 
-        pageSize: 5,
+        pageSize: 10,
         currentPage: 1,
         total: 0,
       }
@@ -164,6 +164,6 @@
   }
 </script>
 
-<style>
+<style scoped>
 
 </style>

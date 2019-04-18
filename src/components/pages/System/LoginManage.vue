@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="aside-class">
     <div class="search-class">
       <el-form ref="form" :model="searchForm">
         <el-row>
@@ -165,5 +165,5 @@
   }
 </script>
 
-<style>
+<style scoped>
 </style>

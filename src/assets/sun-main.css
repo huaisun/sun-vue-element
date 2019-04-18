@@ -9,8 +9,13 @@
   padding: 20px;
   background: white;
   border-radius: 3px;
+  height: calc(100% - 160px);
 }
 
 .page-button-class {
   text-align: left;
+}
+
+.aside-class {
+  height: 100%;
 }
