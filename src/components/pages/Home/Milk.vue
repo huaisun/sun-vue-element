@@ -1,28 +1,28 @@
 <template>
   <el-container>
-    <el-card>
+    <el-card v-for="(item, index) in milkData" :key="index">
       <el-row>
         <el-col :span="8">
-          <img src="/static/img/1.jpeg" class="image milk-photo-size" alt="short-black">
+          <img :src="item.milkPhoto ? baseImgUrl + item.milkPhoto: defualImg" class="image milk-photo-size"
+               alt="short-black">
         </el-col>
         <el-col :span="16" style="padding: 18px; text-align: left;">
           <el-row>
-            <label class="milk-title">鲜芋青稞牛奶</label>
+            <label class="milk-title">{{item.milkName}}</label>
           </el-row>
           <el-row>
-            <label class="milk-detail">来自西藏高原、积蓄了一夏阳光的青稞</label>
+            <label class="milk-detail">{{item.milkDetail}}</label>
           </el-row>
           <el-row>
-            <el-rate v-model="rate"></el-rate>
+            <el-rate v-model="item.milkGrade" disabled></el-rate>
           </el-row>
           <el-row style="width: 100%;">
             <span style="float: left">
               <label class="milk-price milk-price-small">￥</label>
-              <label class="milk-price">14</label>
-              <label class="milk-price-small">起</label>
+              <label class="milk-price">{{item.milkPrice}}</label>
             </span>
             <span style="float: right">
-              <el-popover placement="right" width="300" trigger="click">
+              <el-popover placement="right" width="300" trigger="click" @hide="closePop">
                 <el-main>
                   <p>规格</p>
                   <div>
@@ -35,15 +35,14 @@
                   </div>
                   <div>
                     <label>已选:</label>
-                    <label>常规</label>
+                    <label>{{radio3}}</label>
                   </div>
                   <div>
                    <label class="milk-price milk-price-small">￥</label>
-                   <label class="milk-price">14</label>
+                   <label class="milk-price">{{item.milkPrice}}</label>
                   </div>
-                  <div>
-                    <el-button type="primary" size="mini">选好了，加入购物车</el-button>
-                    <el-button plain size="mini" type="warning">放弃</el-button>
+                  <div class="select-submit-class">
+                    <el-button type="primary" size="mini" @click="addCart(item)">选好了，加入购物车</el-button>
                   </div>
                 </el-main>
                 <el-button type="primary" size="mini" round style="width: 100px;" slot="reference">选规格</el-button>
@@ -59,21 +58,47 @@
 <script>
   export default {
     name: "Milk",
-    data: () => {
+    data: function () {
       return {
-        rate: null,
         radio3: '常规',
         milkData: [],
+        baseImgUrl: '/static/img/milk/',
+        defaultImg: '/static/img/milk/default.jpg'
       }
     },
     created() {
       this.loadMilkData();
     },
     methods: {
+      closePop() {
+        this.radio3 = '常规';
+      },
+      //加载
       loadMilkData() {
         let self = this;
-        self.$http.get('/sun/milk/searchMilkMenu', {params: {isSelf: 0}}).then(response => {
-          self.milkData = response.body.data;
+        self.$http.get('/sun/milk/getMilkMenu').then(reason => {
+          self.milkData = reason.body.data;
+        });
+      },
+      addCart(data) {
+        let self = this;
+        let entity = {
+          mId: data.id,
+          kind: self.radio3,
+          number: 1
+        };
+        entity.kind = this.radio3;
+        self.$http.post('/sun/cart/addCart', entity, {emulateJSON: true}).then(reason => {
+          if (reason.body.code === 1) {
+            this.$message({
+              message: reason.body.msg,
+              type: 'success'
+            });
+          } else {
+            this.$message.error(reason.body.msg);
+          }
+        }, reason => {
+          this.$message.error('System Error,Call Administrator');
         })
       }
     }
@@ -81,6 +106,10 @@
 </script>
 
 <style>
+  .select-submit-class {
+    text-align: right;
+  }
+
   .milk-price {
     line-height: 20px;
     font-size: 14px;
@@ -106,6 +135,10 @@
     padding: 3px;
     width: 400px;
     line-height: 0;
+  }
+
+  .el-card {
+    margin-right: 20px;
   }
 
   .milk-photo-size {

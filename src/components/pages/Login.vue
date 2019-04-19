@@ -11,7 +11,7 @@
             <el-input type="password" v-model="form.password" auto-complete="off" placeholder="请输入密码"></el-input>
           </el-form-item>
           <el-form-item class="button-form-class">
-            <el-button type="primary" @click="onsubmit()" class="submit-class">登陆</el-button>
+            <el-button type="primary" class="submit-class">登陆</el-button>
           </el-form-item>
         </el-form>
       </el-card>
