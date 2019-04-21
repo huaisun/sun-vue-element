@@ -52,22 +52,28 @@
         </el-col>
       </el-row>
     </el-card>
+    <Cart ref="Cart" :dialog-visible="dialogVisible" @closeDialog="handleClose"></Cart>
   </el-container>
 </template>
 
 <script>
+  import Cart from "./Cart";
+
   export default {
     name: "Milk",
+    components: {Cart},
     data: function () {
       return {
         radio3: '常规',
         milkData: [],
         baseImgUrl: '/static/img/milk/',
-        defaultImg: '/static/img/milk/default.jpg'
+        defaultImg: '/static/img/milk/default.jpg',
+        dialogVisible: false
       }
     },
     created() {
       this.loadMilkData();
+      this.loadCart();
     },
     methods: {
       closePop() {
@@ -97,11 +103,37 @@
           } else {
             this.$message.error(reason.body.msg);
           }
+          this.loadCart();
         }, reason => {
           this.$message.error('System Error,Call Administrator');
         })
+      },
+      loadCart() {
+        this.$notify.closeAll();
+        this.$http.get('/sun/cart/getCart').then(reason => {
+          if (reason.body.data > 0) {
+            this.$notify({
+              title: '购物车',
+              message: '已添加 ' + reason.body.data + ' 个物品 ---- 点击前往购物车',
+              position: 'bottom-right',
+              offset: 100,
+              duration: 0,
+              showClose: false,
+              onClick: this.goCart,
+            });
+          }
+        });
+      },
+      goCart() {
+        this.$refs.Cart.loadTable();
+        this.dialogVisible = true;
+      },
+
+      handleClose() {
+        this.dialogVisible = false;
+        this.loadCart();
       }
-    }
+    },
   }
 </script>
 
