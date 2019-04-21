@@ -11,7 +11,7 @@
             <el-input type="password" v-model="form.password" auto-complete="off" placeholder="请输入密码"></el-input>
           </el-form-item>
           <el-form-item class="button-form-class">
-            <el-button type="primary" class="submit-class">登陆</el-button>
+            <el-button type="primary" class="submit-class" @click="onsubmit">登陆</el-button>
           </el-form-item>
         </el-form>
       </el-card>
@@ -22,7 +22,7 @@
 <script>
   export default {
     name: "Login",
-    data: () => {
+    data() {
       return {
         form: {
           name: '',
@@ -39,7 +39,7 @@
             type: 'warning'
           });
         } else {
-          self.$http.post('/sun/employ/login', self.form).then((response) => {
+          self.$http.post('/sun/employ/login', self.form, {emulateJSON: true}).then((response) => {
             if (response.body.code === 1) {
               this.$router.push('milk');
             } else {
