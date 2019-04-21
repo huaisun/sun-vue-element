@@ -134,6 +134,9 @@
         this.loadCart();
       }
     },
+    destroyed() {
+      this.$notify.closeAll();
+    }
   }
 </script>
 

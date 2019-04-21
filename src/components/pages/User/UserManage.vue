@@ -76,7 +76,8 @@
         columnOperation: {
           show: true,
           width: 200,
-          name: 'OPERATE'
+          name: 'OPERATE',
+          buttonShow: true,
         },
 
         pageSize: 10,

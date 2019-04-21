@@ -75,6 +75,7 @@
           show: true,
           width: 200,
           name: 'OPERATION',
+          buttonShow: true,
         },
 
         pageSize: 10,

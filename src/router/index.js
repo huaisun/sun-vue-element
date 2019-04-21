@@ -22,40 +22,40 @@ Vue.component('sun-pagination', Pagination);
 
 export default new Router({
   routes: [{
-    path: '/',
-    name: '登陆',
+    path: '/login',
+    name: 'login',
     component: login
   }, {
     path: '/home',
-    name: '首页',
+    name: 'home',
     component: Home,
     children: [{
       path: '/milk',
-      name: '商品',
+      name: 'milk',
       component: milk
     }, {
       path: '/order_manage',
-      name: '订单管理',
+      name: 'order_manage',
       component: order_manage
     }, {
       path: '/user_manage',
-      name: '用户管理',
+      name: 'user_manage',
       component: user_manage
     }, {
       path: '/milk_manage',
-      name: '奶茶管理',
+      name: 'milk_manage',
       component: milk_manage
     }, {
       path: 'setting',
-      name: '系统设置',
+      name: 'setting',
       component: setting,
       children: [{
         path: '/login_manage',
-        name: '登陆管理',
+        name: 'login_manage',
         component: login_manage
       }, {
         path: '/shop_detail',
-        name: '店铺详情',
+        name: 'shop_detail',
         component: shop_detail
       }]
     }]
