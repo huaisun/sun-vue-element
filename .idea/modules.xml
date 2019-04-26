@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../ahstu-graduation/ahstu-graduation.iml" filepath="$PROJECT_DIR$/../ahstu-graduation/ahstu-graduation.iml" />
       <module fileurl="file://D:/Projects/ahstu-graduation/ahstu-graduation.iml" filepath="D:/Projects/ahstu-graduation/ahstu-graduation.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/sun-vue-element.iml" filepath="$PROJECT_DIR$/.idea/sun-vue-element.iml" />
     </modules>
