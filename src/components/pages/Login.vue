@@ -1,21 +1,23 @@
 <template>
   <div class="pan-class">
-    <div class="login-class">
-      <el-card class="box-card">
-        <el-form :model="form" status-icon ref="form"
-                 class="demo-ruleForm">
-          <el-form-item label="登陆名" prop="username">
-            <el-input type="text" v-model="form.name" auto-complete="off" placeholder="请输入登陆名"></el-input>
-          </el-form-item>
-          <el-form-item label="密码" prop="password">
-            <el-input type="password" v-model="form.password" auto-complete="off" placeholder="请输入密码"></el-input>
-          </el-form-item>
-          <el-form-item class="button-form-class">
-            <el-button type="primary" class="submit-class" @click="onsubmit">登陆</el-button>
-          </el-form-item>
-        </el-form>
-      </el-card>
-    </div>
+    <el-card class="box-card">
+      <el-form :model="form" status-icon ref="form"
+               class="demo-ruleForm">
+        <div class="title-class">
+          <i class="el-icon-s-platform title-icon-class"></i>
+          <label class="title-label-class">登陆管理系统</label>
+        </div>
+        <el-form-item prop="username">
+          <el-input type="text" v-model="form.name" auto-complete="off" placeholder="请输入登陆名"  @keyup.enter.native="onsubmit"></el-input>
+        </el-form-item>
+        <el-form-item prop="password">
+          <el-input type="password" v-model="form.password" auto-complete="off" placeholder="请输入密码"  @keyup.enter.native="onsubmit"></el-input>
+        </el-form-item>
+        <el-form-item class="button-form-class">
+          <el-button type="primary" class="submit-class">登陆</el-button>
+        </el-form-item>
+      </el-form>
+    </el-card>
   </div>
 </template>
 
@@ -59,44 +61,33 @@
 </script>
 
 <style>
-  @media screen and (max-width: 376px) {
-    .login-class {
-      background: #E9EEF3;
-      height: 100%;
-    }
-
-    .submit-class {
-      width: 100%;
-    }
-
-    .box-card {
-      height: 100%;
-    }
-
-    .pan-class {
-      height: 100%;
-    }
+  .title-class {
+    padding-top: 20px;
+    padding-bottom: 20%;
   }
 
-  @media screen and (min-width: 376px) {
-    .login-class {
-      background: #E9EEF3;
-      width: 480px;
-      margin: auto auto;
-      border-radius: 10px;
-    }
+  .title-label-class {
+    font-size: 18px;
+  }
 
-    .box-card {
-      width: 480px;
-      border-radius: 10px;
-    }
+  .title-icon-class {
+    font-size: 20px;
+    color: #A16BFE;
+  }
+  .pan-class {
+    float: right;
+    margin-right: 10%;
+    margin-top: 5%;
+  }
 
-    .button-form-class {
-    }
+  .box-card {
+    width: 380px;
+    height: 650px;
+    border-radius: 10px;
+  }
 
-    .submit-class {
-      width: 100%;
-    }
+  .submit-class {
+    width: 100%;
   }
 
   .box-card .el-card__body {
