@@ -20,7 +20,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.8.1",
     "@fortawesome/vue-fontawesome": "^0.1.6",
     "babel-polyfill": "^6.26.0",
-    "element-ui": "^2.7.0",
+    "element-ui": "^2.8.2",
     "font-awesome": "^4.7.0",
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
