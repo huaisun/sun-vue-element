@@ -3,14 +3,15 @@
     <el-header>
       <el-row>
         <el-col :span="1">
-          <i class="el-icon-menu left-icon-class"></i>
+          <i class="el-icon-house left-icon-class"></i>
         </el-col>
         <el-col :span="3">
-          <span>微笑 - 奶茶店</span>
+          <span>奶茶店管理系统</span>
+          <el-button type="text" icon="el-icon-sunny right-icon-class"></el-button>
         </el-col>
         <el-col :span="20" class="right-header-class">
-          <a href="https://github.com/huaisun/sun-vue-element" target="_blank"
-             class="el-icon-star-off right-icon-class"></a>
+          <el-button type="text" icon="el-icon-switch-button right-icon-class"></el-button>
+          <el-button type="text" icon="el-icon-full-screen right-icon-class"></el-button>
         </el-col>
       </el-row>
     </el-header>
@@ -19,15 +20,15 @@
         <el-menu :default-active="$route.path" class="el-menu-vertical-demo" router :unique-opened="true"
                  menu-trigger="hover" @select="handleSelect">
           <el-menu-item index="/milk">
-            <i class="el-icon-loading"></i>
-            <span slot="title">商品</span>
+            <i class="el-icon-milk-tea"></i>
+            <span slot="title">商品列表</span>
           </el-menu-item>
           <el-menu-item index="/order_manage">
             <i class="el-icon-tickets"></i>
             <span slot="title">订单管理</span>
           </el-menu-item>
           <el-menu-item index="/user_manage">
-            <i class="el-icon-more-outline"></i>
+            <i class="el-icon-user"></i>
             <span slot="title">会员管理</span>
           </el-menu-item>
           <el-menu-item index="/milk_manage">
@@ -37,7 +38,7 @@
           <el-submenu index="setting">
             <template slot="title">
               <i class="el-icon-setting"></i>
-              <span>系统</span>
+              <span>系统管理</span>
             </template>
             <el-menu-item-group>
               <el-menu-item index="/login_manage">登录管理</el-menu-item>
@@ -50,7 +51,18 @@
         <el-main>
           <router-view/>
         </el-main>
-        <el-footer>Footer</el-footer>
+        <el-footer class="footer-background">
+          <el-row>
+            <el-col :span="12" class="left-span">
+              <span>Copyright © 2019 <a href="#" target="_blank">Huai Sun</a>. All rights reserved.</span>
+            </el-col>
+            <el-col :span="12" class="right-span">
+              <span>Hand-crafted & made with
+              <i class="el-icon-umbrella"></i> - More Art <a href="http://www.cssmoban.com/" target="_blank"
+                                                             title="Huai Sun">Huai Sun</a></span>
+            </el-col>
+          </el-row>
+        </el-footer>
       </el-container>
     </el-container>
   </el-container>
@@ -117,11 +129,26 @@
   .right-icon-class {
     color: #921AFF;
     font-size: 20px;
+    text-decoration: none;
+    margin-left: 10px;
   }
 
-  .right-icon-class:hover {
-    background: #921AFF;
-    border-radius: 50%;
-    color: white;
+  .footer-background {
+    background-color: #E9EEF3;
+  }
+
+  .left-span {
+    color: grey;
+    font-size: 14px;
+  }
+
+  .left-span a {
+    color: green;
+  }
+
+  .right-span {
+    color: grey;
+    font-size: 14px;
+    text-align: right;
   }
 </style>
