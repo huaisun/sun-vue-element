@@ -79,9 +79,9 @@
                 type: 'error'
               });
             }
-            this.form.verificationCode = 0;
           });
         }
+        this.form.verificationCode = 0;
       }
     }
   }
