@@ -23,6 +23,10 @@ Vue.component('sun-pagination', Pagination);
 export default new Router({
   routes: [{
     path: '/',
+    name: 'default',
+    component: login
+  },{
+    path: '/login',
     name: 'login',
     component: login
   }, {

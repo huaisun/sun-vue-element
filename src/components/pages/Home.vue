@@ -1,24 +1,29 @@
 <template>
   <el-container style="height: 100%;">
-    <el-header>
+    <el-header :class="isDark? 'dark-background':'sunny-background'">
       <el-row>
         <el-col :span="1">
-          <i class="el-icon-house left-icon-class"></i>
+          <i class="el-icon-s-home left-icon-class" :class="isDark? 'icon-dark':'icon-sunny'"></i>
         </el-col>
         <el-col :span="3">
           <span>奶茶店管理系统</span>
-          <el-button type="text" icon="el-icon-sunny right-icon-class"></el-button>
+          <el-button type="text" class="right-icon-class"
+                     :icon="isDark ? 'el-icon-moon icon-dark': 'el-icon-sunny icon-sunny'"
+                     @click="changeDark"></el-button>
         </el-col>
         <el-col :span="20" class="right-header-class">
-          <el-button type="text" icon="el-icon-switch-button right-icon-class"></el-button>
-          <el-button type="text" icon="el-icon-full-screen right-icon-class"></el-button>
+          <el-button type="text" :class="isDark? 'icon-dark':'icon-sunny'" icon="el-icon-switch-button right-icon-class"
+                     @click="backLogin"></el-button>
+          <el-button type="text" :class="isDark? 'icon-dark':'icon-sunny'" icon="el-icon-full-screen right-icon-class"
+                     @click="toggleFullScreen"></el-button>
         </el-col>
       </el-row>
     </el-header>
     <el-container>
-      <el-aside width="200px" style="border-radius: 3px">
+      <el-aside width="200px">
         <el-menu :default-active="$route.path" class="el-menu-vertical-demo" router :unique-opened="true"
-                 menu-trigger="hover" @select="handleSelect">
+                 menu-trigger="hover" :background-color="isDark? '#545c64': '#fff'" style="height: 100%"
+                 :text-color="isDark? '#fff': '#303133'" :active-text-color="isDark? '#ffd04b':'#409EFF'">
           <el-menu-item index="/milk">
             <i class="el-icon-milk-tea"></i>
             <span slot="title">商品列表</span>
@@ -72,15 +77,45 @@
   export default {
     name: "Home",
     data: () => {
-      return {}
+      return {
+        isDark: false,
+      }
     },
     created() {
     },
     methods: {
-      handleSelect() {
+      //退出登陆
+      backLogin() {
+        localStorage.clear();
+        this.$router.push('/login');
       },
-      hover_icon() {
-        alert(11)
+      //更改颜色
+      changeDark() {
+        this.isDark = !this.isDark;
+      },
+      //全屏点击
+      toggleFullScreen() {
+        if ((document.fullScreenElement !== undefined && document.fullScreenElement === null) || (document.msFullscreenElement !== undefined && document.msFullscreenElement === null) || (document.mozFullScreen !== undefined && !document.mozFullScreen) || (document.webkitIsFullScreen !== undefined && !document.webkitIsFullScreen)) {
+          if (document.documentElement.requestFullScreen) {
+            document.documentElement.requestFullScreen();
+          } else if (document.documentElement.mozRequestFullScreen) {
+            document.documentElement.mozRequestFullScreen();
+          } else if (document.documentElement.webkitRequestFullScreen) {
+            document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+          } else if (document.documentElement.msRequestFullscreen) {
+            document.documentElement.msRequestFullscreen();
+          }
+        } else {
+          if (document.cancelFullScreen) {
+            document.cancelFullScreen();
+          } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+          } else if (document.webkitCancelFullScreen) {
+            document.webkitCancelFullScreen();
+          } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+          }
+        }
       }
     },
   }
@@ -122,14 +157,19 @@
   }
 
   .left-icon-class {
-    color: #921AFF;
     font-size: 24px;
   }
 
-  .right-icon-class {
+  .icon-dark {
+    color: #fff;
+  }
+
+  .icon-sunny {
     color: #921AFF;
+  }
+
+  .right-icon-class {
     font-size: 20px;
-    text-decoration: none;
     margin-left: 10px;
   }
 
@@ -150,5 +190,15 @@
     color: grey;
     font-size: 14px;
     text-align: right;
+  }
+
+  .dark-background {
+    background: #545c64;
+    color: #fff;
+  }
+
+  .sunny-background {
+    background: #fff;
+    color: #545c64
   }
 </style>
