@@ -115,6 +115,7 @@
       editForm(row) {
         this.form.id = row.id;
         this.form.milkName = row.milkName;
+        this.form.milkDetail = row.milkDetail;
         this.form.milkAddress = row.milkAddress;
         this.form.milkPrice = row.milkPrice;
         this.form.shelf = row.shelf === 1;
