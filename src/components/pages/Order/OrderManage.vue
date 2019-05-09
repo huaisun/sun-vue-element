@@ -35,7 +35,7 @@
           prop: 'id',
           name: '订单编号',
         }, {
-          prop: 'userName',
+          prop: 'name',
           name: '用户名',
           formatter: this.nameFormat
         }, {
@@ -73,8 +73,8 @@
       formatDate(row, column, executeTime) {
         return new Date(+new Date(new Date(executeTime).toJSON()) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '');
       },
-      nameFormat(row, column, userName) {
-        return userName == null ? '默认用户' : userName;
+      nameFormat(row, column, name) {
+        return name == null ? '默认用户' : name;
       },
       validFormat(row, column, valid) {
         return valid === 1 ? '有效单' : '无效单';

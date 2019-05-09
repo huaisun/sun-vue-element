@@ -55,11 +55,9 @@
           prop: 'integral',
           name: '积分',
         }, {
-          prop: 'balance',
-          name: '余额',
-        }, {
           prop: 'cost',
           name: '总消费',
+          formatter: this.priceFormat
         }, {
           prop: 'createDate',
           name: '创建日期',
@@ -96,6 +94,18 @@
     },
 
     methods: {
+      priceFormat(row, column, cost) {
+        cost = cost.toString();
+        let length = cost.indexOf('.');
+        if (length < 0) {
+          length = cost.length;
+          cost += '.';
+        }
+        while (cost.length <= length + 2) {
+          cost += '0';
+        }
+        return '$' + cost;
+      },
       //日期转换
       formatDate(row, column, executeTime) {
         return new Date(+new Date(new Date(executeTime).toJSON()) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '');

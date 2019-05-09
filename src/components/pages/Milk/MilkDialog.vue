@@ -26,7 +26,7 @@
           </el-col>
         </el-row>
         <el-form-item label="奶茶照片">
-          <img :src="imgDataUrl" alt="当前图片" class="milk-photo-class" @click="selectPhoto">
+          <img :src="form.milkPhoto ? baseImage + form.milkPhoto: imgDataUrl" alt="当前图片" class="milk-photo-class" @click="selectPhoto">
           <my-upload field="img" :width="300" :height="300" :url="url" v-model="photoShow" img-format="png"
                      withCredentials :noCircle="true"
                      @crop-success="cropSuccess" @crop-upload-success="cropUploadSuccess"
@@ -67,6 +67,7 @@
           milkPhoto: '',
           shelf: false,
         },
+        baseImage : '/static/img/milk/',
         imgDataUrl: '/static/img/milk/default.jpg'
       }
     },
@@ -113,9 +114,12 @@
         this.imgDataUrl = '/static/img/milk/default.jpg';
       },
       editForm(row) {
+        console.log(row);
         this.form.id = row.id;
         this.form.milkName = row.milkName;
+        this.form.milkDetail = row.milkDetail;
         this.form.milkAddress = row.milkAddress;
+        this.form.milkPhoto = row.milkPhoto;
         this.form.milkPrice = row.milkPrice;
         this.form.shelf = row.shelf === 1;
       },

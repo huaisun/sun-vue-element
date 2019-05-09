@@ -19,7 +19,7 @@
               </el-select>
             </el-col>
             <el-col :span="8" class="dialog-form-button-class">
-              <el-button type="warning" size="medium" plain icon="el-icon-plus">新增用户</el-button>
+              <el-button type="warning" size="medium" plain icon="el-icon-plus" @click="addUser">新增用户</el-button>
             </el-col>
           </el-row>
         </el-form-item>
@@ -32,19 +32,25 @@
       <el-button type="primary" @click="submitDialog">下 单</el-button>
     </span>
     </el-dialog>
-    <Pay :dialog-visible="payVisible" :pay-data="payData" @handleClose="handleClose" @handleSuccessPay="handleSuccessPay"></Pay>
+    <Pay :dialog-visible="payVisible" :pay-data="payData" @handleClose="handleClose"
+         @handleSuccessPay="handleSuccessPay"></Pay>
+    <user-dialog ref="UserDialog" :dialog-title="userTitle" :dialog-visible="userVisible"
+                 @handleClose="handleCloseUser"></user-dialog>
   </div>
 </template>
 
 <script>
   import Pay from "./Pay";
+  import UserDialog from "../User/UserDialog";
 
   export default {
     name: "Cart",
-    components: {Pay},
+    components: {Pay, UserDialog},
     props: ['dialogVisible'],
     data: function () {
       return {
+        userVisible: false,
+        userTitle: '新增用户',
         payData: '',
         payVisible: false,
         data: [],
@@ -86,13 +92,19 @@
       this.loadUser();
     },
     methods: {
-      handleSuccessPay(){
+      addUser(){
+        this.userVisible = true;
+      },
+      handleSuccessPay() {
         this.payVisible = false;
         this.clearCart();
         this.closeDialog();
       },
       handleClose() {
         this.payVisible = false;
+      },
+      handleCloseUser() {
+        this.userVisible = false;
       },
       loadUser() {
         this.$http.get('/sun/user/getUser').then(reason => {
@@ -187,10 +199,11 @@
           milk.push(entity);
         }
         this.payData = {
-          uId: this.uId,
+          userId: this.uId,
           cost: this.pay,
-          orderDetail: milk
+          orderDetail: milk,
         };
+        console.log(this.payData);
         this.payVisible = true;
       },
 
