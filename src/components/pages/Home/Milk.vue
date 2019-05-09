@@ -135,8 +135,7 @@
       }
     },
     destroyed() {
-      this.$notify.closeAll();
-    }
+      this.$notify.closeAll();}
   }
 </script>
 

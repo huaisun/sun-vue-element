@@ -19,3 +19,16 @@ new Vue({
   components: {App},
   template: '<App/>'
 });
+
+router.beforeEach((to, from, next) => {
+  if (to.path === '/login') {
+    next();
+  } else {
+    let token = localStorage.getItem("author");
+    if (token == null || token === '') {
+      next('/login');
+    } else {
+      next();
+    }
+  }
+});

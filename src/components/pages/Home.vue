@@ -1,33 +1,39 @@
 <template>
   <el-container style="height: 100%;">
-    <el-header>
+    <el-header :class="isDark? 'dark-background':'sunny-background'">
       <el-row>
         <el-col :span="1">
-          <i class="el-icon-menu left-icon-class"></i>
+          <i class="el-icon-s-home left-icon-class" :class="isDark? 'icon-dark':'icon-sunny'"></i>
         </el-col>
         <el-col :span="3">
-          <span>微笑 - 奶茶店</span>
+          <span>奶茶店管理系统</span>
+          <el-button type="text" class="right-icon-class"
+                     :icon="isDark ? 'el-icon-moon icon-dark': 'el-icon-sunny icon-sunny'"
+                     @click="changeDark"></el-button>
         </el-col>
         <el-col :span="20" class="right-header-class">
-          <a href="https://github.com/huaisun/sun-vue-element" target="_blank"
-             class="el-icon-star-off right-icon-class"></a>
+          <el-button type="text" :class="isDark? 'icon-dark':'icon-sunny'" icon="el-icon-switch-button right-icon-class"
+                     @click="backLogin"></el-button>
+          <el-button type="text" :class="isDark? 'icon-dark':'icon-sunny'" icon="el-icon-full-screen right-icon-class"
+                     @click="toggleFullScreen"></el-button>
         </el-col>
       </el-row>
     </el-header>
     <el-container>
-      <el-aside width="200px" style="border-radius: 3px">
+      <el-aside width="200px">
         <el-menu :default-active="$route.path" class="el-menu-vertical-demo" router :unique-opened="true"
-                 menu-trigger="hover" @select="handleSelect">
+                 menu-trigger="hover" :background-color="isDark? '#545c64': '#fff'" style="height: 100%"
+                 :text-color="isDark? '#fff': '#303133'" :active-text-color="isDark? '#ffd04b':'#409EFF'">
           <el-menu-item index="/milk">
-            <i class="el-icon-loading"></i>
-            <span slot="title">商品</span>
+            <i class="el-icon-milk-tea"></i>
+            <span slot="title">商品列表</span>
           </el-menu-item>
           <el-menu-item index="/order_manage">
             <i class="el-icon-tickets"></i>
             <span slot="title">订单管理</span>
           </el-menu-item>
           <el-menu-item index="/user_manage">
-            <i class="el-icon-more-outline"></i>
+            <i class="el-icon-user"></i>
             <span slot="title">会员管理</span>
           </el-menu-item>
           <el-menu-item index="/milk_manage">
@@ -37,7 +43,7 @@
           <el-submenu index="setting">
             <template slot="title">
               <i class="el-icon-setting"></i>
-              <span>系统</span>
+              <span>系统管理</span>
             </template>
             <el-menu-item-group>
               <el-menu-item index="/login_manage">登录管理</el-menu-item>
@@ -50,7 +56,18 @@
         <el-main>
           <router-view/>
         </el-main>
-        <el-footer>Footer</el-footer>
+        <el-footer class="footer-background">
+          <el-row>
+            <el-col :span="12" class="left-span">
+              <span>Copyright © 2019 <a href="#" target="_blank">Huai Sun</a>. All rights reserved.</span>
+            </el-col>
+            <el-col :span="12" class="right-span">
+              <span>Hand-crafted & made with
+              <i class="el-icon-umbrella"></i> - More Art <a href="http://www.cssmoban.com/" target="_blank"
+                                                             title="Huai Sun">Huai Sun</a></span>
+            </el-col>
+          </el-row>
+        </el-footer>
       </el-container>
     </el-container>
   </el-container>
@@ -60,15 +77,45 @@
   export default {
     name: "Home",
     data: () => {
-      return {}
+      return {
+        isDark: false,
+      }
     },
     created() {
     },
     methods: {
-      handleSelect() {
+      //退出登陆
+      backLogin() {
+        localStorage.clear();
+        this.$router.push('/login');
       },
-      hover_icon() {
-        alert(11)
+      //更改颜色
+      changeDark() {
+        this.isDark = !this.isDark;
+      },
+      //全屏点击
+      toggleFullScreen() {
+        if ((document.fullScreenElement !== undefined && document.fullScreenElement === null) || (document.msFullscreenElement !== undefined && document.msFullscreenElement === null) || (document.mozFullScreen !== undefined && !document.mozFullScreen) || (document.webkitIsFullScreen !== undefined && !document.webkitIsFullScreen)) {
+          if (document.documentElement.requestFullScreen) {
+            document.documentElement.requestFullScreen();
+          } else if (document.documentElement.mozRequestFullScreen) {
+            document.documentElement.mozRequestFullScreen();
+          } else if (document.documentElement.webkitRequestFullScreen) {
+            document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+          } else if (document.documentElement.msRequestFullscreen) {
+            document.documentElement.msRequestFullscreen();
+          }
+        } else {
+          if (document.cancelFullScreen) {
+            document.cancelFullScreen();
+          } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+          } else if (document.webkitCancelFullScreen) {
+            document.webkitCancelFullScreen();
+          } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+          }
+        }
       }
     },
   }
@@ -110,18 +157,48 @@
   }
 
   .left-icon-class {
-    color: #921AFF;
     font-size: 24px;
   }
 
-  .right-icon-class {
-    color: #921AFF;
-    font-size: 20px;
+  .icon-dark {
+    color: #fff;
   }
 
-  .right-icon-class:hover {
-    background: #921AFF;
-    border-radius: 50%;
-    color: white;
+  .icon-sunny {
+    color: #921AFF;
+  }
+
+  .right-icon-class {
+    font-size: 20px;
+    margin-left: 10px;
+  }
+
+  .footer-background {
+    background-color: #E9EEF3;
+  }
+
+  .left-span {
+    color: grey;
+    font-size: 14px;
+  }
+
+  .left-span a {
+    color: green;
+  }
+
+  .right-span {
+    color: grey;
+    font-size: 14px;
+    text-align: right;
+  }
+
+  .dark-background {
+    background: #545c64;
+    color: #fff;
+  }
+
+  .sunny-background {
+    background: #fff;
+    color: #545c64
   }
 </style>
