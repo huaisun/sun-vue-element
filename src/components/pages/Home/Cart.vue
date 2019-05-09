@@ -115,7 +115,7 @@
       },
       clearCart() {
         this.$http.delete('/sun/cart/deleteCart').then(reason => {
-          this.loadTable();
+          this.closeDialog();
         })
       },
       handleDelete(data) {
