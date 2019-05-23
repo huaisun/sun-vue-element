@@ -194,7 +194,8 @@
         for (let i in this.data) {
           let entity = {
             mid: this.data[i].id,
-            number: this.data[i].number
+            number: this.data[i].number,
+            type: this.data[i].kind
           };
           milk.push(entity);
         }
@@ -202,6 +203,7 @@
           userId: this.uId,
           cost: this.pay,
           orderDetail: milk,
+          type: '',
         };
         console.log(this.payData);
         this.payVisible = true;

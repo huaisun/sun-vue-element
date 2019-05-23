@@ -18,7 +18,7 @@
       <sun-table :data="tableData" :label="labelData" :column-index="columnIndex"
                  :column-operation="columnOperation" @handleEdit="handleEdit" @handleDelete="handleDelete"></sun-table>
       <sun-pagination :total="total" :page-size="pageSize" :current-change="currentPage"
-                      @sizeChange="handleSizeChange" @currenChange="handleCurrentChange"></sun-pagination>
+                      @size-change="handleSizeChange" @current-change="handleCurrentChange"></sun-pagination>
     </div>
     <user-dialog ref="UserDialog" :dialog-title="dialogTitle" :dialog-visible="dialogVisible"
                  @handleClose="handleClose"></user-dialog>

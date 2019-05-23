@@ -93,7 +93,6 @@
           kind: self.radio3,
           number: 1
         };
-        entity.kind = this.radio3;
         self.$http.post('/sun/cart/addCart', entity, {emulateJSON: true}).then(reason => {
           if (reason.body.code === 1) {
             this.$message({

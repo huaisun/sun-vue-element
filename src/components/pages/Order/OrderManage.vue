@@ -15,7 +15,7 @@
       <sun-table :data="tableData" :label="labelData" :column-index="columnIndex"
                  :column-operation="columnOperation" :expand="true"></sun-table>
       <sun-pagination :total="total" :page-size="pageSize" :current-change="currentPage"
-                      @sizeChange="handleSizeChange" @currenChange="handleCurrentChange"></sun-pagination>
+                      @size-change="handleSizeChange" @current-change="handleCurrentChange"></sun-pagination>
     </div>
   </div>
 </template>
@@ -89,17 +89,16 @@
         this.$http.get('/sun/order/searchOrderAndUser', {params: entity}).then(reason => {
           this.tableData = reason.body.page.list;
           this.total = reason.body.page.total;
-          console.log(this.tableData);
         });
       },
       //处理分页
       handleSizeChange(pageSize) {
         this.pageSize = pageSize;
-        this.loadTableData();
+        this.loadTable();
       },
       handleCurrentChange(currentPage) {
         this.currentPage = currentPage;
-        this.loadTableData();
+        this.loadTable();
       },
     }
   }

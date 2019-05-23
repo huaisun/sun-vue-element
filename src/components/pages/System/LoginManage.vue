@@ -18,7 +18,7 @@
       <sun-table :data="tableData" :label="labelData" :column-index="columnIndex" :column-operation="columnOperation"
                  @handleEdit="handleEdit" @handleDelete="handleDelete"></sun-table>
       <sun-pagination :total="total" :page-size="pageSize" :current-change="currentPage"
-                      @sizeChange="handleSizeChange" @currenChange="handleCurrentChange"></sun-pagination>
+                      @size-change="handleSizeChange" @current-change="handleCurrentChange"></sun-pagination>
 
     </div>
     <sign-up ref="SignUp" :dialog-visible="dialogVisible" :dialog-title="dialogTitle"
@@ -130,7 +130,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          self.$http.delete('/sun/employ/deleteEmploy', {params: row}).then(response => {
+          self.$http.delete('/sun/employ/deleteEmploy', {params: row}).then(response => {3
             if (response.body.code === 1) {
               self.$message({
                 type: 'success',
