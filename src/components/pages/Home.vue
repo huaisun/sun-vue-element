@@ -3,7 +3,8 @@
     <el-header :class="isDark? 'dark-background':'sunny-background'">
       <el-row>
         <el-col :span="1">
-          <i class="el-icon-s-home left-icon-class" :class="isDark? 'icon-dark':'icon-sunny'"></i>
+          <el-button type="text" :class="isDark? 'icon-dark':'icon-sunny'" icon="el-icon-menu left-icon-class"
+                     @click="shrinkMenu"></el-button>
         </el-col>
         <el-col :span="3">
           <span>奶茶店管理系统</span>
@@ -18,12 +19,14 @@
                      @click="toggleFullScreen"></el-button>
         </el-col>
       </el-row>
+
     </el-header>
     <el-container>
-      <el-aside width="200px">
+      <transition name="el-fade-in-linear">
+      <el-aside v-show="showText" width="200px">
         <el-menu :default-active="$route.path" class="el-menu-vertical-demo" router :unique-opened="true"
-                 menu-trigger="hover" :background-color="isDark? '#545c64': '#fff'" style="height: 100%"
-                 :text-color="isDark? '#fff': '#303133'" :active-text-color="isDark? '#ffd04b':'#409EFF'">
+               menu-trigger="hover" :background-color="isDark? '#545c64': '#fff'" style="height: 100%"
+               :text-color="isDark? '#fff': '#303133'" :active-text-color="isDark? '#ffd04b':'#409EFF'">
           <el-menu-item index="/milk">
             <i class="el-icon-milk-tea"></i>
             <span slot="title">商品列表</span>
@@ -45,18 +48,19 @@
               <i class="el-icon-setting"></i>
               <span>系统管理</span>
             </template>
-            <el-menu-item-group>
+            <el-menu-item-group v-if="showText">
               <el-menu-item index="/login_manage">登录管理</el-menu-item>
               <el-menu-item index="/shop_detail">店铺详情</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
         </el-menu>
       </el-aside>
+        </transition>
       <el-container>
-        <el-main>
+        <el-main :class="main_class">
           <router-view/>
         </el-main>
-        <el-footer class="footer-background">
+        <el-footer :class="main_class">
           <el-row>
             <el-col :span="12" class="left-span">
               <span>Copyright © 2019 <a href="#" target="_blank">Huai Sun</a>. All rights reserved.</span>
@@ -79,11 +83,17 @@
     data: () => {
       return {
         isDark: false,
+        showText: true,
+        main_class: 'light-class'
       }
     },
     created() {
     },
     methods: {
+      //缩小菜单
+      shrinkMenu() {
+        this.showText = this.showText !== true;
+      },
       //退出登陆
       backLogin() {
         localStorage.clear();
@@ -92,6 +102,7 @@
       //更改颜色
       changeDark() {
         this.isDark = !this.isDark;
+        this.main_class = this.isDark ? 'dark-class' : 'light-class';
       },
       //全屏点击
       toggleFullScreen() {
@@ -121,6 +132,15 @@
   }
 </script>
 <style>
+  .light-class {
+    background-color: #E9EEF3;
+    color: #333;
+  }
+  .dark-class {
+    background-color: #C0C0C0;
+    color: #fff;
+  }
+
   .el-header, .el-footer {
     color: #333;
     line-height: 60px;
@@ -131,11 +151,6 @@
     color: #333;
     line-height: 200px;
     text-align: left;
-  }
-
-  .el-main {
-    background-color: #E9EEF3;
-    color: #333;
   }
 
   body > .el-container {
@@ -173,10 +188,6 @@
     margin-left: 10px;
   }
 
-  .footer-background {
-    background-color: #E9EEF3;
-  }
-
   .left-span {
     color: grey;
     font-size: 14px;
@@ -200,5 +211,9 @@
   .sunny-background {
     background: #fff;
     color: #545c64
+  }
+
+  .el-menu {
+    border: 0;
   }
 </style>

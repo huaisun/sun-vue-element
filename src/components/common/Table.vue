@@ -7,8 +7,11 @@
           <el-form-item label="奶茶名">
             <span>{{ item.milkName }}</span>
           </el-form-item>
+          <el-form-item label="种类">
+            <span>{{ item.type }}</span>
+          </el-form-item>
           <el-form-item label="数量">
-            <span>{{ item.number }}</span>
+            <span>{{ item.number }} 杯</span>
           </el-form-item>
         </el-form>
       </template>
