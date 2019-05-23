@@ -63,7 +63,7 @@
             </el-col>
             <el-col :span="12" class="right-span">
               <span>Hand-crafted & made with
-              <i class="el-icon-umbrella"></i> - More Art <a href="http://www.cssmoban.com/" target="_blank"
+              <i class="el-icon-umbrella"></i> - More Art <a href="http://github.com/huaisun" target="_blank"
                                                              title="Huai Sun">Huai Sun</a></span>
             </el-col>
           </el-row>

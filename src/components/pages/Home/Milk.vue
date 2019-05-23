@@ -3,7 +3,7 @@
     <el-card v-for="(item, index) in milkData" :key="index">
       <el-row>
         <el-col :span="8">
-          <img :src="item.milkPhoto ? baseImgUrl + item.milkPhoto: defualImg" class="image milk-photo-size"
+          <img :src="item.milkPhoto ? baseImgUrl + item.milkPhoto: defaultImg" class="image milk-photo-size"
                alt="short-black">
         </el-col>
         <el-col :span="16" style="padding: 18px; text-align: left;">

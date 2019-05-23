@@ -54,7 +54,8 @@
           formatter: this.priceFormat,
         }, {
           prop: 'shelf',
-          name: '上架'
+          name: '上架',
+          formatter: this.shelfFormat
         }],
 
         //序号显示
@@ -79,6 +80,9 @@
       this.loadTableData();
     },
     methods: {
+      shelfFormat(row, column, shelf) {
+        return shelf === 1 ? '已上架': '未上架';
+      },
       priceFormat(row, column, milkPrice) {
         milkPrice = milkPrice.toString();
         let length = milkPrice.indexOf('.');

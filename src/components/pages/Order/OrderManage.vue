@@ -13,7 +13,7 @@
     </div>
     <div class="table-class">
       <sun-table :data="tableData" :label="labelData" :column-index="columnIndex"
-                 :column-operation="columnOperation"></sun-table>
+                 :column-operation="columnOperation" :expand="true"></sun-table>
       <sun-pagination :total="total" :page-size="pageSize" :current-change="currentPage"
                       @sizeChange="handleSizeChange" @currenChange="handleCurrentChange"></sun-pagination>
     </div>
@@ -25,6 +25,7 @@
     name: "OrderManage",
     data() {
       return {
+        expandForm:[],
         //表单搜索
         searchForm: {
           name: '',
@@ -35,7 +36,7 @@
           prop: 'id',
           name: '订单编号',
         }, {
-          prop: 'userName',
+          prop: 'name',
           name: '用户名',
           formatter: this.nameFormat
         }, {
@@ -73,8 +74,8 @@
       formatDate(row, column, executeTime) {
         return new Date(+new Date(new Date(executeTime).toJSON()) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '');
       },
-      nameFormat(row, column, userName) {
-        return userName == null ? '默认用户' : userName;
+      nameFormat(row, column, name) {
+        return name == null ? '默认用户' : name;
       },
       validFormat(row, column, valid) {
         return valid === 1 ? '有效单' : '无效单';
@@ -88,6 +89,7 @@
         this.$http.get('/sun/order/searchOrderAndUser', {params: entity}).then(reason => {
           this.tableData = reason.body.page.list;
           this.total = reason.body.page.total;
+          console.log(this.tableData);
         });
       },
       //处理分页
