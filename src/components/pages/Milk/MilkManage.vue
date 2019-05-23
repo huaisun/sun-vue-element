@@ -80,6 +80,9 @@
       this.loadTableData();
     },
     methods: {
+      detailFormat(row, column, detial) {
+        return detial.substring(0, 14) + '...';
+      },
       shelfFormat(row, column, shelf) {
         return shelf === 1 ? '已上架': '未上架';
       },

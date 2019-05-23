@@ -1,5 +1,6 @@
 <template>
   <el-dialog :visible.sync="dialogVisible" width="20%" :before-close="closeDialog">
+    <span slot="title" class="dialog-title">模拟支付结果</span>
     <el-button type="primary" @click="paySuccess">支付成功</el-button>
     <el-button type="warning" @click="payFail">支付失败</el-button>
   </el-dialog>

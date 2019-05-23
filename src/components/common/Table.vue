@@ -18,7 +18,7 @@
     </el-table-column>
     <el-table-column v-if="columnIndex.show" type="index"
                      :label="columnIndex.name" :width="columnIndex.width"></el-table-column>
-    <el-table-column v-for="(item, index) in label" :prop="item.prop" :key="index" :label="item.name"
+    <el-table-column v-for="(item, index) in label" show-overflow-tooltip :prop="item.prop" :key="index" :label="item.name"
                      :width="item.width" :formatter="item.formatter"></el-table-column>
     <el-table-column v-if="columnOperation.show" :width="columnOperation.width" :label="columnOperation.name">
       <template slot-scope="scope">
@@ -73,6 +73,6 @@
   .demo-table-expand .el-form-item {
     margin-right: 0;
     margin-bottom: 0;
-    width: 50%;
+    width: 30%;
   }
 </style>
